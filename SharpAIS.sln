@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C019DE01-01EF-4C63-BCAA-10A19850BA92}"
+	ProjectSection(SolutionItems) = preProject
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+		SharpAIS.vsmdi = SharpAIS.vsmdi
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISApp", "AISApp\AISApp.csproj", "{167A1F67-7AF3-4C61-9922-8030630D9847}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAIS", "SharpAIS\SharpAIS.csproj", "{E69A2EC6-764A-4BDF-9E31-657736B006B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAISTest", "SharpAISTest\SharpAISTest.csproj", "{958A9B8B-FABE-4E6A-9491-B2BEF035006C}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = SharpAIS.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{167A1F67-7AF3-4C61-9922-8030630D9847}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{167A1F67-7AF3-4C61-9922-8030630D9847}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{167A1F67-7AF3-4C61-9922-8030630D9847}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{167A1F67-7AF3-4C61-9922-8030630D9847}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E69A2EC6-764A-4BDF-9E31-657736B006B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E69A2EC6-764A-4BDF-9E31-657736B006B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E69A2EC6-764A-4BDF-9E31-657736B006B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E69A2EC6-764A-4BDF-9E31-657736B006B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
