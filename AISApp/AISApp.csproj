@@ -45,7 +45,9 @@
     <Content Include="AIS.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="BaseStation.txt" />
+    <Content Include="BaseStation.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SharpAIS\SharpAIS.csproj">
