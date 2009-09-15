@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAIS", "SharpAIS\SharpA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAISTest", "SharpAISTest\SharpAISTest.csproj", "{958A9B8B-FABE-4E6A-9491-B2BEF035006C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISSplit", "AISSplit\AISSplit.csproj", "{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SharpAIS.vsmdi
@@ -34,6 +36,10 @@ Global
 		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{958A9B8B-FABE-4E6A-9491-B2BEF035006C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

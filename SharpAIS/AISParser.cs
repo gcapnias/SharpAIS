@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace SharpAIS
 {
@@ -682,8 +683,11 @@ namespace SharpAIS
         {
             string[] data = sentence.Split(',');
 
+            //Debug.Assert(data[1] == "1");
+
             int msg_number = int.Parse(data[2]);
             int msg_part = int.Parse(data[1]);
+            string msg_slot = data[3];
 
             string aisdata = EncodedDataToBinary(data[5]);
             int fillbits = int.Parse(data[6]);
@@ -697,36 +701,64 @@ namespace SharpAIS
 
             if (msg_number == msg_part)
             {
-                if (msg_number != 1)
+                if (msg_part != 1)
                 {
-                    aisdata = buffer[data[3]] + aisdata;
-                    buffer.Remove(data[3]);
+                    //Debug.WriteLine(string.Format("Slot:[{0}] Part:{1}/{2}", msg_slot, msg_number, msg_part));
+                    if (buffer.ContainsKey(msg_slot))
+                    {
+                        //Debug.WriteLine(string.Format("Length:{0}", aisdata.Length));
+                        if (buffer[msg_slot].Length == (msg_number - 1) * 360)
+                            aisdata = buffer[msg_slot] + aisdata;
+                        else
+                            aisdata = string.Empty;
+
+                        buffer.Remove(msg_slot);
+                    }
+                    else
+                        aisdata = string.Empty;
                 }
 
                 //if (aisdata.StartsWith(i2b(1, 6)))
                 //    System.Diagnostics.Debugger.Break();
 
-                foreach (string key in patterns.Keys)
+                if (!string.IsNullOrEmpty(aisdata))
                 {
-                    Regex regex = new Regex(key);
-                    if (regex.IsMatch(aisdata))
+                    foreach (string key in patterns.Keys)
                     {
-                        //if (aisdata.Length % 6 > 0)
-                        //    System.Diagnostics.Debugger.Break();
+                        Regex regex = new Regex(key);
+                        if (regex.IsMatch(aisdata))
+                        {
+                            //if (aisdata.Length % 6 > 0)
+                            //    System.Diagnostics.Debugger.Break();
 
-                        return DecodeAISData(aisdata, (string[])patterns[key]);
+                            return DecodeAISData(aisdata, (string[])patterns[key]);
+                        }
                     }
                 }
             }
             else
             {
-                if (buffer.ContainsKey(data[3]))
+                //Debug.WriteLine(string.Format("Slot:[{0}] Part:{1}/{2}", msg_slot, msg_number, msg_part));
+                if (msg_number == 1)
                 {
-                    buffer[data[3]] += aisdata;
+                    if (buffer.ContainsKey(msg_slot))
+                    {
+                        Debug.WriteLine(string.Format("Slot:[{0}] deleted!", msg_slot));
+                        buffer.Remove(msg_slot);
+                    }
+
+                    buffer.Add(msg_slot, aisdata);
+                    Debug.WriteLine(string.Format("Length:{0}", aisdata.Length));
                 }
                 else
                 {
-                    buffer.Add(data[3], aisdata);
+                    if (buffer.ContainsKey(msg_slot))
+                    {
+                        if (buffer[msg_slot].Length == (msg_number - 1) * 360)
+                            buffer[msg_slot] += aisdata;
+                        else
+                            buffer.Remove(msg_slot);
+                    }
                 }
             }
 
