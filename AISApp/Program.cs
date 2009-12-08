@@ -12,17 +12,38 @@ namespace AISApp
     {
         static void Main(string[] args)
         {
+            int MaxLines = 20000;
             DateTime currentTime = DateTime.Now;
             CultureInfo culture = new CultureInfo("en-US");
 
             SharpAIS.Parser parser = new SharpAIS.Parser();
             if (File.Exists(args[0]))
             {
+                int currentpart = 1;
+                int currentline = 0;
+                FileInfo inComing = new FileInfo(args[0]);
+                string filename = string.Format("{0}-{1:00}{2}", inComing.Name.Replace(inComing.Extension, string.Empty), currentpart, inComing.Extension);
+                Console.WriteLine(string.Format("Writing: {0}", filename));
+                TextWriter outComing = new StreamWriter(filename);
+
                 using (StreamReader sr = new StreamReader(args[0]))
                 {
                     string textline;
                     while ((textline = sr.ReadLine()) != null)
                     {
+                        if (currentline > MaxLines)
+                        {
+                            outComing.Flush();
+                            outComing.Close();
+
+                            currentpart++;
+                            currentline = 0;
+                            filename = string.Format("{0}-{1:00}{2}", inComing.Name.Replace(inComing.Extension, string.Empty) ,currentpart ,inComing.Extension);
+                            Console.WriteLine(string.Format("Writing: {0}", filename));
+                            outComing = new StreamWriter(filename);
+                        }
+
+
                         Hashtable rs = parser.Parse(textline);
                         if (rs != null)
                         {
@@ -33,8 +54,8 @@ namespace AISApp
                                     case 1:
                                     case 2:
                                     case 3:
-                                        Console.Write("{0}", currentTime.ToString("yyyy!MM!dd!HH!mm!ss!"));
-                                        Console.Write("{0}!{1}!{2}!{3}!{4}!{5}!{6}!{7}!{8}!{9}!{10}!{11}!{12}!{13}!{14}",
+                                        outComing.Write("{0}", currentTime.ToString("yyyy!MM!dd!HH!mm!ss!"));
+                                        outComing.Write("{0}!{1}!{2}!{3}!{4}!{5}!{6}!{7}!{8}!{9}!{10}!{11}!{12}!{13}!{14}",
                                             1,
                                             rs["UserID"],
                                             rs["RepeatIndicator"],
@@ -50,7 +71,8 @@ namespace AISApp
                                             rs["SpecialManeuvreIndicator"],
                                             rs["RAIMFlag"],
                                             rs["Spare"]);
-                                            Console.WriteLine();
+                                        outComing.WriteLine();
+                                        currentline++;
                                         break;
 
                                     case 4:
@@ -59,26 +81,27 @@ namespace AISApp
                                         break;
 
                                     case 5:
-                                        Console.Write("{0}", currentTime.ToString("yyyy!MM!dd!HH!mm!ss!"));
-                                        Console.Write("{0}!{1}!{2}!{3}!{4}!{5}!{6}!{7}!{8}!{9}!{10}!{11}!{12}!{13}!{14}!{15}!{16}", 
-                                            rs["MessageID"], 
-                                            rs["UserID"], 
-                                            rs["RepeatIndicator"], 
-                                            rs["DSI"], 
-                                            rs["IMONumber"], 
-                                            ((string)rs["CallSign"]).Trim(), 
-                                            ((string)rs["Name"]).Trim(), 
-                                            rs["TypeOfShipAndCargoType"], 
-                                            rs["LengthFore"], 
-                                            rs["LengthAft"], 
-                                            rs["WidthPort"], 
+                                        outComing.Write("{0}", currentTime.ToString("yyyy!MM!dd!HH!mm!ss!"));
+                                        outComing.Write("{0}!{1}!{2}!{3}!{4}!{5}!{6}!{7}!{8}!{9}!{10}!{11}!{12}!{13}!{14}!{15}!{16}",
+                                            rs["MessageID"],
+                                            rs["UserID"],
+                                            rs["RepeatIndicator"],
+                                            rs["DSI"],
+                                            rs["IMONumber"],
+                                            ((string)rs["CallSign"]).Trim(),
+                                            ((string)rs["Name"]).Trim(),
+                                            rs["TypeOfShipAndCargoType"],
+                                            rs["LengthFore"],
+                                            rs["LengthAft"],
+                                            rs["WidthPort"],
                                             rs["WidthStarboard"],
                                             rs["TypeOfElectronicPositionFixingDevice"],
-                                            rs["MaximumPresentStaticDraught"], 
-                                            ((string)rs["Destination"]).Trim(), 
-                                            rs["DTE"], 
+                                            rs["MaximumPresentStaticDraught"],
+                                            ((string)rs["Destination"]).Trim(),
+                                            rs["DTE"],
                                             rs["Spare"]);
-                                            Console.WriteLine();
+                                        outComing.WriteLine();
+                                        currentline++;
                                         break;
 
 
@@ -88,15 +111,18 @@ namespace AISApp
                             }
                             else
                             {
-                                //Console.WriteLine("{Error}");
+                                //outComing.WriteLine("{Error}");
                             }
                         }
                         else
                         {
-                            //Console.WriteLine("{No parse} " + textline);
+                            //outComing.WriteLine("{No parse} " + textline);
                         }
                     }
                 }
+
+                outComing.Flush();
+                outComing.Close();
                 //Console.ReadKey();
             }
         }
