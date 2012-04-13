@@ -17,6 +17,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISSplit", "AISSplit\AISSpl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AISMap", "AISMap\AISMap.csproj", "{4E283D29-9D14-4308-BAAE-11A0D13450C0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotSpatial", "dotSpatial", "{9C4CAEC3-EAFF-415E-BE23-8C2F00AD4827}"
+	ProjectSection(SolutionItems) = preProject
+		dotSpatial\DotSpatial.Analysis.dll = dotSpatial\DotSpatial.Analysis.dll
+		dotSpatial\DotSpatial.Compatibility.dll = dotSpatial\DotSpatial.Compatibility.dll
+		dotSpatial\DotSpatial.Controls.dll = dotSpatial\DotSpatial.Controls.dll
+		dotSpatial\DotSpatial.Data.dll = dotSpatial\DotSpatial.Data.dll
+		dotSpatial\DotSpatial.Data.Forms.dll = dotSpatial\DotSpatial.Data.Forms.dll
+		dotSpatial\DotSpatial.Extensions.dll = dotSpatial\DotSpatial.Extensions.dll
+		dotSpatial\DotSpatial.Modeling.dll = dotSpatial\DotSpatial.Modeling.dll
+		dotSpatial\DotSpatial.Modeling.Forms.dll = dotSpatial\DotSpatial.Modeling.Forms.dll
+		dotSpatial\DotSpatial.Projections.dll = dotSpatial\DotSpatial.Projections.dll
+		dotSpatial\DotSpatial.Projections.Forms.dll = dotSpatial\DotSpatial.Projections.Forms.dll
+		dotSpatial\DotSpatial.Serialization.dll = dotSpatial\DotSpatial.Serialization.dll
+		dotSpatial\DotSpatial.Symbology.dll = dotSpatial\DotSpatial.Symbology.dll
+		dotSpatial\DotSpatial.Symbology.Forms.dll = dotSpatial\DotSpatial.Symbology.Forms.dll
+		dotSpatial\DotSpatial.Topology.dll = dotSpatial\DotSpatial.Topology.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotSpatial.Controls.BruTileLayer", "dotSpatial.Controls.BruTileLayer", "{E6CA4CA6-397F-41E8-88FE-8E7E631B385D}"
+	ProjectSection(SolutionItems) = preProject
+		dotSpatial.Controls.BruTileLayer\BruTile.dll = dotSpatial.Controls.BruTileLayer\BruTile.dll
+		dotSpatial.Controls.BruTileLayer\DotSpatial.Controls.BruTileLayer.dll = dotSpatial.Controls.BruTileLayer\DotSpatial.Controls.BruTileLayer.dll
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6
