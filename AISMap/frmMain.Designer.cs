@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
-            this.uxSpatialToolStrip = new DotSpatial.Controls.SpatialToolStrip();
             this.appManager1 = new DotSpatial.Controls.AppManager();
             this.uxMap = new DotSpatial.Controls.Map();
             this.uxSpatialStatusStrip = new DotSpatial.Controls.SpatialStatusStrip();
@@ -39,18 +38,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.layoutMenuStrip1 = new DotSpatial.Controls.LayoutMenuStrip();
             this.aisPort = new System.IO.Ports.SerialPort(this.components);
+            this.spatialToolStrip1 = new DotSpatial.Controls.SpatialToolStrip();
             this.uxSpatialStatusStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // uxSpatialToolStrip
-            // 
-            this.uxSpatialToolStrip.ApplicationManager = this.appManager1;
-            this.uxSpatialToolStrip.Location = new System.Drawing.Point(0, 24);
-            this.uxSpatialToolStrip.Map = this.uxMap;
-            this.uxSpatialToolStrip.Name = "uxSpatialToolStrip";
-            this.uxSpatialToolStrip.Size = new System.Drawing.Size(873, 25);
-            this.uxSpatialToolStrip.TabIndex = 0;
-            this.uxSpatialToolStrip.Text = "spatialToolStrip1";
             // 
             // appManager1
             // 
@@ -74,14 +64,14 @@
             this.uxMap.FunctionMode = DotSpatial.Controls.FunctionMode.None;
             this.uxMap.IsBusy = false;
             this.uxMap.Legend = null;
-            this.uxMap.Location = new System.Drawing.Point(0, 49);
+            this.uxMap.Location = new System.Drawing.Point(0, 24);
             this.uxMap.Name = "uxMap";
             this.uxMap.ProgressHandler = this.uxSpatialStatusStrip;
             this.uxMap.ProjectionModeDefine = DotSpatial.Controls.ActionMode.Prompt;
             this.uxMap.ProjectionModeReproject = DotSpatial.Controls.ActionMode.Prompt;
             this.uxMap.RedrawLayersWhileResizing = true;
             this.uxMap.SelectionEnabled = true;
-            this.uxMap.Size = new System.Drawing.Size(873, 627);
+            this.uxMap.Size = new System.Drawing.Size(873, 652);
             this.uxMap.TabIndex = 2;
             this.uxMap.GeoMouseMove += new System.EventHandler<DotSpatial.Controls.GeoMouseArgs>(this.uxMap_GeoMouseMove);
             this.uxMap.ViewExtentsChanged += new System.EventHandler<DotSpatial.Data.ExtentArgs>(this.uxMap_ViewExtentsChanged);
@@ -134,14 +124,24 @@
             this.aisPort.PortName = "COM3";
             this.aisPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.aisPort_DataReceived);
             // 
+            // spatialToolStrip1
+            // 
+            this.spatialToolStrip1.ApplicationManager = this.appManager1;
+            this.spatialToolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.spatialToolStrip1.Map = this.uxMap;
+            this.spatialToolStrip1.Name = "spatialToolStrip1";
+            this.spatialToolStrip1.Size = new System.Drawing.Size(873, 25);
+            this.spatialToolStrip1.TabIndex = 4;
+            this.spatialToolStrip1.Text = "uxSpatialToolStrip";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(873, 698);
+            this.Controls.Add(this.spatialToolStrip1);
             this.Controls.Add(this.uxMap);
             this.Controls.Add(this.uxSpatialStatusStrip);
-            this.Controls.Add(this.uxSpatialToolStrip);
             this.Controls.Add(this.layoutMenuStrip1);
             this.MainMenuStrip = this.layoutMenuStrip1;
             this.Name = "frmMain";
@@ -156,7 +156,6 @@
 
         #endregion
 
-        private DotSpatial.Controls.SpatialToolStrip uxSpatialToolStrip;
         private DotSpatial.Controls.Map uxMap;
         private DotSpatial.Controls.SpatialStatusStrip uxSpatialStatusStrip;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
@@ -165,6 +164,7 @@
         private DotSpatial.Controls.LayoutMenuStrip layoutMenuStrip1;
         private DotSpatial.Controls.AppManager appManager1;
         private System.IO.Ports.SerialPort aisPort;
+        private DotSpatial.Controls.SpatialToolStrip spatialToolStrip1;
 
     }
 }

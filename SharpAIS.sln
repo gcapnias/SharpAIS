@@ -41,6 +41,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotSpatial.Controls.BruTile
 		dotSpatial.Controls.BruTileLayer\DotSpatial.Controls.BruTileLayer.dll = dotSpatial.Controls.BruTileLayer\DotSpatial.Controls.BruTileLayer.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{9238AFCC-87B5-4CA3-8E7D-1CD9E1FD7C42}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\AIS_Protocol_Decoding.xps = Documentation\AIS_Protocol_Decoding.xps
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 6

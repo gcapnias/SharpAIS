@@ -279,11 +279,11 @@ namespace AISMap {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class Message1DataTable : global::System.Data.TypedTableBase<Message1Row> {
             
-            private global::System.Data.DataColumn columnMessageID;
+            private global::System.Data.DataColumn columnMessageType;
             
             private global::System.Data.DataColumn columnRepeatIndicator;
             
-            private global::System.Data.DataColumn columnUserID;
+            private global::System.Data.DataColumn columnMMSI;
             
             private global::System.Data.DataColumn columnNavigationalStatus;
             
@@ -303,7 +303,9 @@ namespace AISMap {
             
             private global::System.Data.DataColumn columnTimeStamp;
             
-            private global::System.Data.DataColumn columnSpecialManeuvreIndicator;
+            private global::System.Data.DataColumn columnManeuverIndicator;
+            
+            private global::System.Data.DataColumn columnSpare;
             
             private global::System.Data.DataColumn columnRAIMFlag;
             
@@ -312,8 +314,6 @@ namespace AISMap {
             private global::System.Data.DataColumn columnSlotTimeOut;
             
             private global::System.Data.DataColumn columnSubMessage;
-            
-            private global::System.Data.DataColumn columnSpare;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -350,9 +350,9 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn MessageIDColumn {
+            public global::System.Data.DataColumn MessageTypeColumn {
                 get {
-                    return this.columnMessageID;
+                    return this.columnMessageType;
                 }
             }
             
@@ -366,9 +366,9 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn UserIDColumn {
+            public global::System.Data.DataColumn MMSIColumn {
                 get {
-                    return this.columnUserID;
+                    return this.columnMMSI;
                 }
             }
             
@@ -446,9 +446,17 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SpecialManeuvreIndicatorColumn {
+            public global::System.Data.DataColumn ManeuverIndicatorColumn {
                 get {
-                    return this.columnSpecialManeuvreIndicator;
+                    return this.columnManeuverIndicator;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn SpareColumn {
+                get {
+                    return this.columnSpare;
                 }
             }
             
@@ -481,14 +489,6 @@ namespace AISMap {
             public global::System.Data.DataColumn SubMessageColumn {
                 get {
                     return this.columnSubMessage;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn SpareColumn {
-                get {
-                    return this.columnSpare;
                 }
             }
             
@@ -530,9 +530,9 @@ namespace AISMap {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public Message1Row AddMessage1Row(
-                        uint MessageID, 
+                        uint MessageType, 
                         uint RepeatIndicator, 
-                        uint UserID, 
+                        uint MMSI, 
                         uint NavigationalStatus, 
                         int RateOfTurn, 
                         uint SpeedOverGround, 
@@ -542,17 +542,17 @@ namespace AISMap {
                         double CourseOverGround, 
                         uint TrueHeading, 
                         uint TimeStamp, 
-                        uint SpecialManeuvreIndicator, 
+                        uint ManeuverIndicator, 
+                        uint Spare, 
                         uint RAIMFlag, 
                         uint SyncState, 
                         uint SlotTimeOut, 
-                        string SubMessage, 
-                        uint Spare) {
+                        string SubMessage) {
                 Message1Row rowMessage1Row = ((Message1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        MessageID,
+                        MessageType,
                         RepeatIndicator,
-                        UserID,
+                        MMSI,
                         NavigationalStatus,
                         RateOfTurn,
                         SpeedOverGround,
@@ -562,12 +562,12 @@ namespace AISMap {
                         CourseOverGround,
                         TrueHeading,
                         TimeStamp,
-                        SpecialManeuvreIndicator,
+                        ManeuverIndicator,
+                        Spare,
                         RAIMFlag,
                         SyncState,
                         SlotTimeOut,
-                        SubMessage,
-                        Spare};
+                        SubMessage};
                 rowMessage1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowMessage1Row);
                 return rowMessage1Row;
@@ -590,9 +590,9 @@ namespace AISMap {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnMessageID = base.Columns["MessageID"];
+                this.columnMessageType = base.Columns["MessageType"];
                 this.columnRepeatIndicator = base.Columns["RepeatIndicator"];
-                this.columnUserID = base.Columns["UserID"];
+                this.columnMMSI = base.Columns["MMSI"];
                 this.columnNavigationalStatus = base.Columns["NavigationalStatus"];
                 this.columnRateOfTurn = base.Columns["RateOfTurn"];
                 this.columnSpeedOverGround = base.Columns["SpeedOverGround"];
@@ -602,23 +602,23 @@ namespace AISMap {
                 this.columnCourseOverGround = base.Columns["CourseOverGround"];
                 this.columnTrueHeading = base.Columns["TrueHeading"];
                 this.columnTimeStamp = base.Columns["TimeStamp"];
-                this.columnSpecialManeuvreIndicator = base.Columns["SpecialManeuvreIndicator"];
+                this.columnManeuverIndicator = base.Columns["ManeuverIndicator"];
+                this.columnSpare = base.Columns["Spare"];
                 this.columnRAIMFlag = base.Columns["RAIMFlag"];
                 this.columnSyncState = base.Columns["SyncState"];
                 this.columnSlotTimeOut = base.Columns["SlotTimeOut"];
                 this.columnSubMessage = base.Columns["SubMessage"];
-                this.columnSpare = base.Columns["Spare"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnMessageID = new global::System.Data.DataColumn("MessageID", typeof(uint), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnMessageID);
+                this.columnMessageType = new global::System.Data.DataColumn("MessageType", typeof(uint), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMessageType);
                 this.columnRepeatIndicator = new global::System.Data.DataColumn("RepeatIndicator", typeof(uint), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRepeatIndicator);
-                this.columnUserID = new global::System.Data.DataColumn("UserID", typeof(uint), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnUserID);
+                this.columnMMSI = new global::System.Data.DataColumn("MMSI", typeof(uint), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnMMSI);
                 this.columnNavigationalStatus = new global::System.Data.DataColumn("NavigationalStatus", typeof(uint), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNavigationalStatus);
                 this.columnRateOfTurn = new global::System.Data.DataColumn("RateOfTurn", typeof(int), null, global::System.Data.MappingType.Element);
@@ -637,8 +637,10 @@ namespace AISMap {
                 base.Columns.Add(this.columnTrueHeading);
                 this.columnTimeStamp = new global::System.Data.DataColumn("TimeStamp", typeof(uint), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnTimeStamp);
-                this.columnSpecialManeuvreIndicator = new global::System.Data.DataColumn("SpecialManeuvreIndicator", typeof(uint), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSpecialManeuvreIndicator);
+                this.columnManeuverIndicator = new global::System.Data.DataColumn("ManeuverIndicator", typeof(uint), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnManeuverIndicator);
+                this.columnSpare = new global::System.Data.DataColumn("Spare", typeof(uint), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSpare);
                 this.columnRAIMFlag = new global::System.Data.DataColumn("RAIMFlag", typeof(uint), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnRAIMFlag);
                 this.columnSyncState = new global::System.Data.DataColumn("SyncState", typeof(uint), null, global::System.Data.MappingType.Element);
@@ -647,8 +649,6 @@ namespace AISMap {
                 base.Columns.Add(this.columnSlotTimeOut);
                 this.columnSubMessage = new global::System.Data.DataColumn("SubMessage", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSubMessage);
-                this.columnSpare = new global::System.Data.DataColumn("Spare", typeof(uint), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnSpare);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -791,17 +791,17 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public uint MessageID {
+            public uint MessageType {
                 get {
                     try {
-                        return ((uint)(this[this.tableMessage1.MessageIDColumn]));
+                        return ((uint)(this[this.tableMessage1.MessageTypeColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'MessageID\' in table \'Message1\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MessageType\' in table \'Message1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMessage1.MessageIDColumn] = value;
+                    this[this.tableMessage1.MessageTypeColumn] = value;
                 }
             }
             
@@ -823,17 +823,17 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public uint UserID {
+            public uint MMSI {
                 get {
                     try {
-                        return ((uint)(this[this.tableMessage1.UserIDColumn]));
+                        return ((uint)(this[this.tableMessage1.MMSIColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'UserID\' in table \'Message1\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'MMSI\' in table \'Message1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMessage1.UserIDColumn] = value;
+                    this[this.tableMessage1.MMSIColumn] = value;
                 }
             }
             
@@ -983,17 +983,33 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public uint SpecialManeuvreIndicator {
+            public uint ManeuverIndicator {
                 get {
                     try {
-                        return ((uint)(this[this.tableMessage1.SpecialManeuvreIndicatorColumn]));
+                        return ((uint)(this[this.tableMessage1.ManeuverIndicatorColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'SpecialManeuvreIndicator\' in table \'Message1\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'ManeuverIndicator\' in table \'Message1\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableMessage1.SpecialManeuvreIndicatorColumn] = value;
+                    this[this.tableMessage1.ManeuverIndicatorColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public uint Spare {
+                get {
+                    try {
+                        return ((uint)(this[this.tableMessage1.SpareColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Spare\' in table \'Message1\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableMessage1.SpareColumn] = value;
                 }
             }
             
@@ -1063,30 +1079,14 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public uint Spare {
-                get {
-                    try {
-                        return ((uint)(this[this.tableMessage1.SpareColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Spare\' in table \'Message1\' is DBNull.", e);
-                    }
-                }
-                set {
-                    this[this.tableMessage1.SpareColumn] = value;
-                }
+            public bool IsMessageTypeNull() {
+                return this.IsNull(this.tableMessage1.MessageTypeColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsMessageIDNull() {
-                return this.IsNull(this.tableMessage1.MessageIDColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetMessageIDNull() {
-                this[this.tableMessage1.MessageIDColumn] = global::System.Convert.DBNull;
+            public void SetMessageTypeNull() {
+                this[this.tableMessage1.MessageTypeColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1103,14 +1103,14 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsUserIDNull() {
-                return this.IsNull(this.tableMessage1.UserIDColumn);
+            public bool IsMMSINull() {
+                return this.IsNull(this.tableMessage1.MMSIColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetUserIDNull() {
-                this[this.tableMessage1.UserIDColumn] = global::System.Convert.DBNull;
+            public void SetMMSINull() {
+                this[this.tableMessage1.MMSIColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1223,14 +1223,26 @@ namespace AISMap {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSpecialManeuvreIndicatorNull() {
-                return this.IsNull(this.tableMessage1.SpecialManeuvreIndicatorColumn);
+            public bool IsManeuverIndicatorNull() {
+                return this.IsNull(this.tableMessage1.ManeuverIndicatorColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSpecialManeuvreIndicatorNull() {
-                this[this.tableMessage1.SpecialManeuvreIndicatorColumn] = global::System.Convert.DBNull;
+            public void SetManeuverIndicatorNull() {
+                this[this.tableMessage1.ManeuverIndicatorColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IsSpareNull() {
+                return this.IsNull(this.tableMessage1.SpareColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SetSpareNull() {
+                this[this.tableMessage1.SpareColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1279,18 +1291,6 @@ namespace AISMap {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public void SetSubMessageNull() {
                 this[this.tableMessage1.SubMessageColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public bool IsSpareNull() {
-                return this.IsNull(this.tableMessage1.SpareColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public void SetSpareNull() {
-                this[this.tableMessage1.SpareColumn] = global::System.Convert.DBNull;
             }
         }
         
