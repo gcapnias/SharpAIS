@@ -30,20 +30,20 @@ namespace AISMap
         public frmMain()
         {
             InitializeComponent();
-            appManager1.LoadExtensions();
 
             uxMap.BackColor = Color.FromArgb(181, 208, 208);
             uxMap.Layers.Add(BruTileLayer.CreateOsmLayer());
 
             featureTable = new AISDataSet.Message1DataTable();
             ships = new FeatureSet(FeatureType.Point);
-            ships.Projection = uxMap.Layers[0].Projection; //KnownCoordinateSystems.Geographic.World.WGS1984;
+            ships.Projection = uxMap.Layers[0].Projection; // OpenSteetMap projection;
             ships.DataTable = featureTable;
 
             shipsLayer = new MapPointLayer(ships);
             shipsLayer.Symbolizer = new PointSymbolizer(Color.Blue, DotSpatial.Symbology.PointShape.Ellipse, 10);
             shipsLayer.LegendText = "AIS Features";
             uxMap.MapFrame.DrawingLayers.Add(shipsLayer);
+            shipsLayer.IsSelected = true;
 
             uxMap.ViewExtents = new Extent(1642982.27031471, 4063251.12000095, 3802748.48786722, 5126261.05520257);
 
@@ -70,9 +70,9 @@ namespace AISMap
             Hashtable rs = parser.Parse(textline);
             if (rs != null)
             {
-                if (rs.ContainsKey("MessageID"))
+                if (rs.ContainsKey("MessageType"))
                 {
-                    switch ((int)rs["MessageID"])
+                    switch ((uint)rs["MessageType"])
                     {
                         case 1:
                         case 2:
@@ -85,8 +85,8 @@ namespace AISMap
 
                             IFeature feature;
 
-                            List<int> results = ships.Find(string.Format("UserID={0}", rs["UserID"]));
-                            if (results != null && results.Count > 0)
+                            List<int> results = ships.Find(string.Format("MMSI={0}", rs["MMSI"]));
+                            if (results != null && results.Any())
                             {
                                 feature = ships.GetFeature(results[0]);
                                 feature.Coordinates[0] = coord;
@@ -97,18 +97,26 @@ namespace AISMap
                                 feature = ships.AddFeature(point);
                             }
 
+                            //
+                            // Fix values outside range
+                            if (double.IsInfinity((double)rs["CourseOverGround"]) || double.IsNaN((double)rs["CourseOverGround"]))
+                                rs["CourseOverGround"] = 0F;
+
+                            if (double.IsInfinity((double)rs["SpeedOverGround"]) || double.IsNaN((double)rs["SpeedOverGround"]))
+                                rs["SpeedOverGround"] = 0F;
+
                             foreach (DictionaryEntry item in rs)
                             {
                                 feature.DataRow[item.Key.ToString()] = item.Value;
                             }
                             uxMap.MapFrame.Invalidate();
 
-                            Debug.WriteLine("Ship {0}: X:{1:.00000}, Y:{2:.00000}", rs["UserID"], coord.X, coord.Y);
+                            //Debug.WriteLine("Ship {0}: X:{1:.00000}, Y:{2:.00000}", rs["MMSI"], coord.X, coord.Y);
                             break;
 
                         case 4:
                         case 11:
-                            currentTime = new DateTime((int)rs["UTCYear"], (int)rs["UTCMonth"], (int)rs["UTCDay"], (int)rs["UTCHour"], (int)rs["UTCMinute"], (int)rs["UTCSecond"]);
+                            //currentTime = new DateTime(int.Parse(rs["Year"].ToString()), int.Parse(rs["Month"].ToString()), int.Parse(rs["Day"].ToString()), int.Parse(rs["Hour"].ToString()), int.Parse(rs["Minute"].ToString()), int.Parse(rs["Second"].ToString()));
                             break;
 
                         case 5:
