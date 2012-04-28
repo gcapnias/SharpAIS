@@ -29,6 +29,8 @@ namespace DotSpatial.Examples.AISViewer
         private FeatureSet vesselsFeatureSet;
         private AISDataSet.Message1DataTable vesselsDataTable;
 
+        private PseudoSerial pseudoAisPort = new PseudoSerial();
+
         public frmMain()
         {
             InitializeComponent();
@@ -44,9 +46,30 @@ namespace DotSpatial.Examples.AISViewer
             vesselsFeatureSet.Projection = KnownCoordinateSystems.Projected.World.WebMercator;
             vesselsFeatureSet.DataTable = vesselsDataTable;
 
+            PointSymbolizer vesselsSymbolizerUnderWay = getPointSymbolizer(Color.LightGray, Symbology.PointShape.Rectangle, 8);
+            IPointCategory vesselsUnderWayCategory = getPointCategory(vesselsSymbolizerUnderWay, "[NavigationalStatus] = 0", "Under Way");
+
+            PointSymbolizer vesselsSymbolizerAtAnchor = getPointSymbolizer(Color.LightPink, Symbology.PointShape.Diamond, 8);
+            IPointCategory vesselsAtAnchorCategory = getPointCategory(vesselsSymbolizerAtAnchor, "[NavigationalStatus] >= 1", "At Anchor");
+
+
             vesselsLayer = new MapPointLayer(vesselsFeatureSet);
-            vesselsLayer.Symbolizer = new PointSymbolizer(Color.LightGreen, Symbology.PointShape.Rectangle, 10);
-            vesselsLayer.LegendText = "AIS Features";
+            vesselsLayer.LegendText = "Vessels";
+            //vesselsLayer.Symbolizer = new PointSymbolizer(Color.LightGreen, Symbology.PointShape.Rectangle, 10);
+
+            //IFeatureScheme vesselsScheme = new PointScheme();
+            //vesselsScheme.ClearCategories();
+            //vesselsScheme.AddCategory(vesselsUnderWayCategory);
+            //vesselsScheme.AddCategory(vesselsAtAnchorCategory);
+            //vesselsLayer.ApplyScheme(vesselsScheme);
+
+            //vesselsFeatureSet.FillAttributes();
+            vesselsLayer.Symbology.Categories.Clear();
+            vesselsLayer.Symbology.Categories.Add(vesselsUnderWayCategory);
+            vesselsLayer.Symbology.Categories.Add(vesselsAtAnchorCategory);
+            vesselsLayer.ApplyScheme(vesselsLayer.Symbology);
+            //vesselsLayer.AssignFastDrawnStates();
+            vesselsLayer.DataSet.InvalidateVertices();
 
 
             LabelSymbolizer vesselsLabelSymbolizer = new LabelSymbolizer()
@@ -58,34 +81,64 @@ namespace DotSpatial.Examples.AISViewer
                 BackColorEnabled = true,
                 BackColorOpacity = 0.5f,
                 Orientation = ContentAlignment.MiddleRight,
-                PartsLabelingMethod = PartLabelingMethod.LabelAllParts
+                PartsLabelingMethod = PartLabelingMethod.LabelAllParts,
+                OffsetX = 5
             };
 
             ILabelCategory vesselsLabelCategory = new LabelCategory()
             {
                 Expression = "[MMSI]",
                 Symbolizer = vesselsLabelSymbolizer,
-                Name = "Vessels Labels"
+                Name = "Vessels' Names"
             };
 
-            vesselsLayer.LabelLayer = new MapLabelLayer();
+            vesselsLayer.LabelLayer = new MapLabelLayer(vesselsFeatureSet);
             vesselsLayer.ShowLabels = true;
-            vesselsLayer.LabelLayer.UseDynamicVisibility = true;
-            vesselsLayer.LabelLayer.DynamicVisibilityWidth = 0.025F;
+            //vesselsLayer.LabelLayer.UseDynamicVisibility = true;
+            //vesselsLayer.LabelLayer.DynamicVisibilityWidth = 0.025F;
+            vesselsLayer.LabelLayer.Symbology.Categories.Clear();
             vesselsLayer.LabelLayer.Symbology.Categories.Add(vesselsLabelCategory);
             vesselsLayer.LabelLayer.CreateLabels();
-
             uxMap.MapFrame.Add(vesselsLayer);
-
-            //uxMap.AddLabels(vesselsLayer, "[MMSI]", new Font("Tahoma", 8.0F), Color.Black);
-
-            //uxMap.AddLabels(vesselsLayer, "[MMSI]", "1=1", vesselsLabelSymbolizer, 0.025F);
-
 
             uxMap.ViewExtents = new Extent(1642982.27031471, 4063251.12000095, 3802748.48786722, 5126261.05520257);
 
-            aisPort.Open();
+            //
+            // aisPort.Open();
+            pseudoAisPort.LogFilePath = "AIS.log";
+            pseudoAisPort.DataReceived += new EventHandler<SerialDataReceivedEventArgs>(pseudoAisPortDataReceived);
+            pseudoAisPort.Open();
         }
+
+        void pseudoAisPortDataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            BeginInvoke(new RowHandler(HandleRow), pseudoAisPort.ReadLine());
+        }
+
+
+        private PointSymbolizer getPointSymbolizer(Color symbolColor, DotSpatial.Symbology.PointShape symbolShape, double symbolSize)
+        {
+            IList<ISymbol> symbolsList = new CopyList<ISymbol>();
+            ISimpleSymbol symbol = new SimpleSymbol(symbolColor, symbolShape, symbolSize) { UseOutline = true, OutlineColor = Color.Black };
+            symbolsList.Add(symbol);
+            PointSymbolizer pointSymbolizer = new PointSymbolizer()
+            {
+                Smoothing = true,
+                Symbols = symbolsList
+            };
+
+            return pointSymbolizer;
+        }
+
+        private IPointCategory getPointCategory(PointSymbolizer pointSymbolizer, string filterExpression, string legendText)
+        {
+            return new PointCategory(pointSymbolizer)
+            {
+                FilterExpression = filterExpression,
+                LegendText = legendText
+            };
+        }
+
 
         private void uxMap_GeoMouseMove(object sender, GeoMouseArgs e)
         {
@@ -129,7 +182,7 @@ namespace DotSpatial.Examples.AISViewer
 
                             IFeature feature;
 
-                            List<int> results = vesselsFeatureSet.Find(string.Format("MMSI={0}", rs["MMSI"]));
+                            List<int> results = vesselsFeatureSet.Find(string.Format("[MMSI]={0}", rs["MMSI"]));
                             if (results != null && results.Any())
                             {
                                 feature = vesselsFeatureSet.GetFeature(results[0]);
@@ -154,7 +207,7 @@ namespace DotSpatial.Examples.AISViewer
                                 feature.DataRow[item.Key.ToString()] = item.Value;
                             }
 
-                            vesselsLayer.LabelLayer.CreateLabels();
+                            //vesselsLayer.LabelLayer.CreateLabels();
                             uxMap.MapFrame.Invalidate();
 
                             //Debug.WriteLine("Ship {0}: X:{1:.00000}, Y:{2:.00000}", rs["MMSI"], coord.X, coord.Y);
@@ -178,7 +231,8 @@ namespace DotSpatial.Examples.AISViewer
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
-            aisPort.Close();
+            // aisPort.Close();
+            pseudoAisPort.Close();
         }
 
     }
