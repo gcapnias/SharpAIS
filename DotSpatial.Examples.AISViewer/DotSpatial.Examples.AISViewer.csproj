@@ -104,6 +104,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PseudoSerial.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="PseudoSerial.Designer.cs">
+      <DependentUpon>PseudoSerial.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,6 +123,15 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="PseudoSerial.resx">
+      <DependentUpon>PseudoSerial.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="AIS.log">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="AIS.Short.log">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="AISDataSet.xsc">
       <DependentUpon>AISDataSet.xsd</DependentUpon>
     </None>

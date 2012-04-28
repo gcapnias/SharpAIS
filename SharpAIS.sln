@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Examples.AISView
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Plugins.AISViewer", "DotSpatial.Plugins.AISViewer\DotSpatial.Plugins.AISViewer.csproj", "{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5133F7B4-8AC6-4C1B-A1F4-0DADAC12B5FE}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 7
@@ -136,7 +138,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{167A1F67-7AF3-4C61-9922-8030630D9847} = {2B91FB39-B03C-4906-B47A-E09B7263B466}
 		{51EB6226-36DA-4C4F-AEAE-B5CBAB51F3E5} = {2B91FB39-B03C-4906-B47A-E09B7263B466}
+		{167A1F67-7AF3-4C61-9922-8030630D9847} = {2B91FB39-B03C-4906-B47A-E09B7263B466}
 	EndGlobalSection
 EndGlobal
