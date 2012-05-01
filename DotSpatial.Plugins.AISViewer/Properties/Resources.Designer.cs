@@ -61,11 +61,57 @@ namespace DotSpatial.Plugins.AISViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        internal static string DeviceStart {
+            get {
+                return ResourceManager.GetString("DeviceStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stop.
+        /// </summary>
+        internal static string DeviceStop {
+            get {
+                return ResourceManager.GetString("DeviceStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to AIS.
         /// </summary>
         internal static string MenuAIS {
             get {
                 return ResourceManager.GetString("MenuAIS", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap playback_start_16 {
+            get {
+                object obj = ResourceManager.GetObject("playback_start_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap playback_start_32 {
+            get {
+                object obj = ResourceManager.GetObject("playback_start_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap playback_stop_16 {
+            get {
+                object obj = ResourceManager.GetObject("playback_stop_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap playback_stop_32 {
+            get {
+                object obj = ResourceManager.GetObject("playback_stop_32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
     }
