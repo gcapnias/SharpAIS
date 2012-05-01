@@ -207,7 +207,7 @@ namespace DotSpatial.Examples.AISViewer
                                 feature.DataRow[item.Key.ToString()] = item.Value;
                             }
 
-                            //vesselsLayer.LabelLayer.CreateLabels();
+                            vesselsLayer.LabelLayer.CreateLabels();
                             uxMap.MapFrame.Invalidate();
 
                             //Debug.WriteLine("Ship {0}: X:{1:.00000}, Y:{2:.00000}", rs["MMSI"], coord.X, coord.Y);

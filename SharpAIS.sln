@@ -32,8 +32,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Examples.AISView
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Plugins.AISViewer", "DotSpatial.Plugins.AISViewer\DotSpatial.Plugins.AISViewer.csproj", "{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{5133F7B4-8AC6-4C1B-A1F4-0DADAC12B5FE}"
-EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 7
