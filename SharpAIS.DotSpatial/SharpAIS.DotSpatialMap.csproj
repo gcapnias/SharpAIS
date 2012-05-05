@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}</ProjectGuid>
+    <ProjectGuid>{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DotSpatial.Plugins.AISViewer</RootNamespace>
-    <AssemblyName>DotSpatial.Plugins.AISViewer</AssemblyName>
+    <RootNamespace>SharpAIS.DotSpatialMap</RootNamespace>
+    <AssemblyName>SharpAIS.DotSpatialMap</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -21,25 +21,18 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <StartAction>Program</StartAction>
-    <StartProgram>$(OutputPath)\DemoMap.exe</StartProgram>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>$(MSBuildProjectDirectory)\bin\$(Configuration)</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <StartAction>Program</StartAction>
-    <StartProgram>$(OutputPath)\DemoMap.exe</StartProgram>
-  </PropertyGroup>
-  <PropertyGroup>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotSpatial.Controls">
@@ -78,41 +71,25 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AISDataSet.cs">
       <DependentUpon>AISDataSet.xsd</DependentUpon>
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="AISDataSet.Designer.cs">
       <DependentUpon>AISDataSet.xsd</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="PseudoSerial.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PseudoSerial.Designer.cs">
-      <DependentUpon>PseudoSerial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SharpAISPlugin.cs" />
+    <Compile Include="AISHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Readme.txt" />
-    <Content Include="Resources\deselect_16x16.png" />
     <None Include="AISDataSet.xsc">
       <DependentUpon>AISDataSet.xsd</DependentUpon>
     </None>
@@ -124,48 +101,23 @@
     <None Include="AISDataSet.xss">
       <DependentUpon>AISDataSet.xsd</DependentUpon>
     </None>
-    <None Include="Resources\playback-stop-32.png" />
-    <None Include="Resources\playback-stop-16.png" />
-    <None Include="Resources\playback-start-32.png" />
-    <None Include="Resources\playback-start-16.png" />
-    <None Include="AIS.log">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="DemoMap.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="PseudoSerial.resx">
-      <DependentUpon>PseudoSerial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Content Include="Resources\deselect_16x16.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SharpAIS.DotSpatial\SharpAIS.DotSpatialMap.csproj">
-      <Project>{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}</Project>
-      <Name>SharpAIS.DotSpatialMap</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SharpAIS\SharpAIS.csproj">
       <Project>{E69A2EC6-764A-4BDF-9E31-657736B006B9}</Project>
       <Name>SharpAIS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
-   -->
   <Target Name="AfterBuild">
-    <Message Text="Moving output file">
-    </Message>
-    <Move SourceFiles="$(OutputPath)$(MSBuildProjectName).dll" DestinationFolder="$(OutputPath)Plugins\" />
   </Target>
+  -->
 </Project>

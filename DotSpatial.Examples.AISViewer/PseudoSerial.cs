@@ -17,6 +17,7 @@ namespace DotSpatial.Examples.AISViewer
         public PseudoSerial()
         {
             InitializeComponent();
+            flowTimer.Enabled = false;
         }
 
         public PseudoSerial(IContainer container)
@@ -24,9 +25,11 @@ namespace DotSpatial.Examples.AISViewer
             container.Add(this);
 
             InitializeComponent();
+            flowTimer.Enabled = false;
         }
 
 
+        private bool _IsOpen = false;
         private string _LogFilePath;
 
         [Category("Behavior")]
@@ -50,10 +53,16 @@ namespace DotSpatial.Examples.AISViewer
             set { flowTimer.Interval = value; }
         }
 
+        public bool IsOpen
+        {
+            get { return _IsOpen; }
+            set { _IsOpen = value; }
+        }
 
         public void Open()
         {
             OpenFile();
+            _IsOpen = true;
         }
 
         private void OpenFile()
@@ -69,6 +78,7 @@ namespace DotSpatial.Examples.AISViewer
         public void Close()
         {
             CloseFile();
+            _IsOpen = false;
         }
 
         private void CloseFile()
@@ -101,18 +111,18 @@ namespace DotSpatial.Examples.AISViewer
 
         private void flowTimer_Tick(object sender, EventArgs e)
         {
-            if (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-                lineBuffer.Enqueue(line);
-                OnDataReceived(null);
-            }
-            else
-            {
-                CloseFile();
-                OpenFile();
-            }
+            if (sr != null)
+                if (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    lineBuffer.Enqueue(line);
+                    OnDataReceived(null);
+                }
+                else
+                {
+                    CloseFile();
+                    OpenFile();
+                }
         }
-
     }
 }
