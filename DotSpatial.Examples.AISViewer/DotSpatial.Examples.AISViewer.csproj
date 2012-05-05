@@ -90,14 +90,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AISDataSet.cs">
-      <DependentUpon>AISDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="AISDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AISDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,17 +126,6 @@
     <None Include="AIS.Short.log">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="AISDataSet.xsc">
-      <DependentUpon>AISDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="AISDataSet.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AISDataSet.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="AISDataSet.xss">
-      <DependentUpon>AISDataSet.xsd</DependentUpon>
-    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -158,6 +139,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SharpAIS.DotSpatial\SharpAIS.DotSpatialMap.csproj">
+      <Project>{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}</Project>
+      <Name>SharpAIS.DotSpatialMap</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpAIS\SharpAIS.csproj">
       <Project>{E69A2EC6-764A-4BDF-9E31-657736B006B9}</Project>
       <Name>SharpAIS</Name>

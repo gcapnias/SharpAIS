@@ -32,9 +32,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Examples.AISView
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotSpatial.Plugins.AISViewer", "DotSpatial.Plugins.AISViewer\DotSpatial.Plugins.AISViewer.csproj", "{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAIS.DotSpatialMap", "SharpAIS.DotSpatial\SharpAIS.DotSpatialMap.csproj", "{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 8
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs10
 		SccLocalPath0 = .
@@ -58,6 +60,9 @@ Global
 		SccProjectUniqueName6 = DotSpatial.Examples.AISViewer\\DotSpatial.Examples.AISViewer.csproj
 		SccProjectName6 = DotSpatial.Examples.AISViewer
 		SccLocalPath6 = DotSpatial.Examples.AISViewer
+		SccProjectUniqueName7 = SharpAIS.DotSpatial\\SharpAIS.DotSpatialMap.csproj
+		SccProjectName7 = SharpAIS.DotSpatial
+		SccLocalPath7 = SharpAIS.DotSpatial
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SharpAIS.vsmdi
@@ -131,6 +136,16 @@ Global
 		{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{001E8DF9-AE54-41BC-BB9D-656DE4B48D80}.Release|x86.ActiveCfg = Release|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F2BFB59E-DD4F-44B5-B7A6-F8BCA1A7D535}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -29,6 +29,7 @@ namespace DotSpatial.Plugins.AISViewer
         }
 
 
+        private bool _IsOpen = false;
         private string _LogFilePath;
 
         [Category("Behavior")]
@@ -52,10 +53,16 @@ namespace DotSpatial.Plugins.AISViewer
             set { flowTimer.Interval = value; }
         }
 
+        public bool IsOpen
+        {
+            get { return _IsOpen; }
+            set { _IsOpen = value; }
+        }
 
         public void Open()
         {
             OpenFile();
+            _IsOpen = true;
         }
 
         private void OpenFile()
@@ -71,6 +78,7 @@ namespace DotSpatial.Plugins.AISViewer
         public void Close()
         {
             CloseFile();
+            _IsOpen = false;
         }
 
         private void CloseFile()
@@ -116,6 +124,5 @@ namespace DotSpatial.Plugins.AISViewer
                     OpenFile();
                 }
         }
-
     }
 }

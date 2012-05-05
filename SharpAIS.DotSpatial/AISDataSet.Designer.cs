@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace DotSpatial.Examples.AISViewer {
+namespace SharpAIS.DotSpatialMap {
     
     
     /// <summary>
