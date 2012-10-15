@@ -1,4 +1,4 @@
-﻿namespace DotSpatial.Plugins.AISViewer
+﻿namespace SharpAIS.DotSpatialMap
 {
     
     

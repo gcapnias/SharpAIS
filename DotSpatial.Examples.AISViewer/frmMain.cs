@@ -55,8 +55,11 @@ namespace DotSpatial.Examples.AISViewer
 
             uxMap.ViewExtents = new Extent(1642982.27031471, 4063251.12000095, 3802748.48786722, 5126261.05520257);
 
-            //pseudoAisPort.Open();
-            aisPort.Open();
+            if (DotSpatial.Plugins.AISViewer.Properties.Settings.Default.UsePseudoPort)
+                pseudoAisPort.Open();
+            else
+                aisPort.Open();
+
             refreshTimer.Enabled = true;
         }
 

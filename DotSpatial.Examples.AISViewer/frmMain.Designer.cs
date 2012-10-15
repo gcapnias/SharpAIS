@@ -37,8 +37,8 @@
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.layoutMenuStrip1 = new DotSpatial.Controls.LayoutMenuStrip();
-            this.aisPort = new System.IO.Ports.SerialPort(this.components);
             this.spatialToolStrip1 = new DotSpatial.Controls.SpatialToolStrip();
+            this.aisPort = new System.IO.Ports.SerialPort(this.components);
             this.uxSpatialStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,12 +118,6 @@
             this.layoutMenuStrip1.TabIndex = 3;
             this.layoutMenuStrip1.Text = "layoutMenuStrip1";
             // 
-            // aisPort
-            // 
-            this.aisPort.BaudRate = 4800;
-            this.aisPort.PortName = "COM4";
-            this.aisPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.aisPort_DataReceived);
-            // 
             // spatialToolStrip1
             // 
             this.spatialToolStrip1.ApplicationManager = this.appManager1;
@@ -133,6 +127,16 @@
             this.spatialToolStrip1.Size = new System.Drawing.Size(873, 25);
             this.spatialToolStrip1.TabIndex = 4;
             this.spatialToolStrip1.Text = "uxSpatialToolStrip";
+            // 
+            // aisPort
+            // 
+            this.aisPort.BaudRate = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.BaudRate;
+            this.aisPort.DataBits = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.DataBits;
+            this.aisPort.Handshake = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.Handshake;
+            this.aisPort.Parity = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.Parity;
+            this.aisPort.PortName = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.PortName;
+            this.aisPort.StopBits = global::DotSpatial.Plugins.AISViewer.Properties.Settings.Default.StopBits;
+            this.aisPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.aisPort_DataReceived);
             // 
             // frmMain
             // 
