@@ -55,7 +55,8 @@ namespace DotSpatial.Examples.AISViewer
 
             uxMap.ViewExtents = new Extent(1642982.27031471, 4063251.12000095, 3802748.48786722, 5126261.05520257);
 
-            pseudoAisPort.Open();
+            //pseudoAisPort.Open();
+            aisPort.Open();
             refreshTimer.Enabled = true;
         }
 
@@ -85,7 +86,7 @@ namespace DotSpatial.Examples.AISViewer
         private void aisPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             DataHandler handler = new DataHandler(helper.HandleRow);
-            handler.BeginInvoke(pseudoAisPort.ReadLine(), null, null);
+            handler.BeginInvoke(aisPort.ReadLine(), null, null);
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
