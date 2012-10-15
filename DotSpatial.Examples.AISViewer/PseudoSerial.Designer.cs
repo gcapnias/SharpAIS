@@ -33,7 +33,6 @@
             // 
             // flowTimer
             // 
-            this.flowTimer.Enabled = true;
             this.flowTimer.Interval = 500;
             this.flowTimer.Tick += new System.EventHandler(this.flowTimer_Tick);
 

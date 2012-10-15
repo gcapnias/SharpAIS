@@ -222,6 +222,19 @@ namespace SharpAISTest
 
 
 		/// <summary>
+		/// Test decoding on type 1 message
+		/// </summary>
+		[TestMethod()]
+		public void ParseMessageType1Text()
+		{
+			Parser p = new Parser();
+			string data = "!AIVDM,1,1,,B,139=P:001n0T2d8HqJQ1QQ@N0D1r,0*36";
+			Hashtable result = p.Parse(data);
+			Assert.AreEqual(result, null);
+
+		}
+
+		/// <summary>
 		/// Test decoding on type 5 message
 		/// </summary>
 		[TestMethod()]
