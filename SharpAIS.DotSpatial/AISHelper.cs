@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using DotSpatial.Data;
-using DotSpatial.Symbology;
 using DotSpatial.Controls;
-using DotSpatial.Topology;
+using DotSpatial.Data;
 using DotSpatial.Projections;
-using System.Collections;
+using DotSpatial.Symbology;
+using DotSpatial.Topology;
 
 namespace SharpAIS.DotSpatialMap
 {
