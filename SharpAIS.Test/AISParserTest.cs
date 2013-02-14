@@ -14,8 +14,6 @@ namespace SharpAISTest
 	[TestClass()]
 	public class AISParserTest
 	{
-
-
 		private TestContext testContextInstance;
 
 		/// <summary>
@@ -68,16 +66,16 @@ namespace SharpAISTest
 		/// <summary>
 		///A test for ParseSentence
 		///</summary>
-		[TestMethod()]
-		public void ParseSentenceTest()
-		{
-			string sentence = string.Empty; // TODO: Initialize to an appropriate value
-			Hashtable expected = null; // TODO: Initialize to an appropriate value
-			Hashtable actual;
-			actual = AISParser.ParseSentence(sentence);
-			Assert.AreEqual(expected, actual);
-			Assert.Inconclusive("Verify the correctness of this test method.");
-		}
+		//[TestMethod()]
+		//public void ParseSentenceTest()
+		//{
+		//    string sentence = string.Empty; // TODO: Initialize to an appropriate value
+		//    Hashtable expected = null; // TODO: Initialize to an appropriate value
+		//    Hashtable actual;
+		//    actual = AISParser.ParseSentence(sentence);
+		//    Assert.AreEqual(expected, actual);
+		//    Assert.Inconclusive("Verify the correctness of this test method.");
+		//}
 
 		/// <summary>
 		///A test for IntegerToBinary
@@ -112,113 +110,113 @@ namespace SharpAISTest
 		/// <summary>
 		///A test for DecodeAISData
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void DecodeAISDataTest()
-		{
-			string AISData = "1CR7p0001S1bL>BEdk:S18Bh0P00";
-			string[] attributes = new string[] {
-				"MessageID:int:6",
-				"RepeatIndicator:int:2",
-				"UserID:int:30",
-				"NavigationalStatus:int:4",
-				"RateOfTurn:sint:8",
-				"SpeedOverGround:int:10",
-				"PositionAccuracy:int:1",
-				"Longitude:double:28:600000",
-				"Latitude:double:27:600000",
-				"CourseOverGround:double:12:10",
-				"TrueHeading:int:9",
-				"TimeStamp:int:6",
-				"SpecialManeuvreIndicator:int:2",
-				"Spare:int:3",
-				"RAIMFlag:int:1",
-				"SyncState:int:2",
-				"SlotTimeOut:int:3",
-				"SubΜessage:data:14"
-			};
-			Hashtable expected = new Hashtable();
-			expected.Add("Spare", (int)0);
-			expected.Add("UserID", (int)237107200);
-			expected.Add("NavigationalStatus", (int)0);
-			expected.Add("SpecialManeuvreIndicator", (int)0);
-			expected.Add("SubΜessage", "00000000000000");
-			expected.Add("CourseOverGround", (double)77.2M);
-			expected.Add("RepeatIndicator", (int)1);
-			expected.Add("MessageID", (int)1);
-			expected.Add("Longitude", (double)23.2523883333333M);
-			expected.Add("SyncState", (int)1);
-			expected.Add("RAIMFlag", (int)0);
-			expected.Add("TrueHeading", (int)265);
-			expected.Add("PositionAccuracy", (int)0);
-			expected.Add("Latitude", (double)37.9234833333333M);
-			expected.Add("RateOfTurn", (int)0);
-			expected.Add("TimeStamp", (int)24);
-			expected.Add("SpeedOverGround", (int)99);
-			expected.Add("SlotTimeOut", (int)0);
-			Hashtable actual = AISParser_Accessor.DecodeAISData(AISParser_Accessor.EncodedDataToBinary(AISData), attributes);
-			foreach (DictionaryEntry item in expected)
-			{
-				Assert.IsTrue(actual.Contains(item.Key));
-				Assert.AreEqual(item.Value, actual[item.Key]);
-			}
-			Assert.AreEqual(expected.Count, actual.Count);
-		}
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void DecodeAISDataTest()
+		//{
+		//    string AISData = "1CR7p0001S1bL>BEdk:S18Bh0P00";
+		//    string[] attributes = new string[] {
+		//        "MessageID:int:6",
+		//        "RepeatIndicator:int:2",
+		//        "UserID:int:30",
+		//        "NavigationalStatus:int:4",
+		//        "RateOfTurn:sint:8",
+		//        "SpeedOverGround:int:10",
+		//        "PositionAccuracy:int:1",
+		//        "Longitude:double:28:600000",
+		//        "Latitude:double:27:600000",
+		//        "CourseOverGround:double:12:10",
+		//        "TrueHeading:int:9",
+		//        "TimeStamp:int:6",
+		//        "SpecialManeuvreIndicator:int:2",
+		//        "Spare:int:3",
+		//        "RAIMFlag:int:1",
+		//        "SyncState:int:2",
+		//        "SlotTimeOut:int:3",
+		//        "SubΜessage:data:14"
+		//    };
+		//    Hashtable expected = new Hashtable();
+		//    expected.Add("Spare", (int)0);
+		//    expected.Add("UserID", (int)237107200);
+		//    expected.Add("NavigationalStatus", (int)0);
+		//    expected.Add("SpecialManeuvreIndicator", (int)0);
+		//    expected.Add("SubΜessage", "00000000000000");
+		//    expected.Add("CourseOverGround", (double)77.2M);
+		//    expected.Add("RepeatIndicator", (int)1);
+		//    expected.Add("MessageID", (int)1);
+		//    expected.Add("Longitude", (double)23.2523883333333M);
+		//    expected.Add("SyncState", (int)1);
+		//    expected.Add("RAIMFlag", (int)0);
+		//    expected.Add("TrueHeading", (int)265);
+		//    expected.Add("PositionAccuracy", (int)0);
+		//    expected.Add("Latitude", (double)37.9234833333333M);
+		//    expected.Add("RateOfTurn", (int)0);
+		//    expected.Add("TimeStamp", (int)24);
+		//    expected.Add("SpeedOverGround", (int)99);
+		//    expected.Add("SlotTimeOut", (int)0);
+		//    Hashtable actual = AISParser_Accessor.DecodeAISData(AISParser_Accessor.EncodedDataToBinary(AISData), attributes);
+		//    foreach (DictionaryEntry item in expected)
+		//    {
+		//        Assert.IsTrue(actual.Contains(item.Key));
+		//        Assert.AreEqual(item.Value, actual[item.Key]);
+		//    }
+		//    Assert.AreEqual(expected.Count, actual.Count);
+		//}
 
 		/// <summary>
 		///A test for BinToString
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void BinToStringTest()
-		{
-			string encodedData = string.Empty; // TODO: Initialize to an appropriate value
-			string expected = string.Empty; // TODO: Initialize to an appropriate value
-			string actual;
-			actual = AISParser_Accessor.BinToString(encodedData);
-			Assert.AreEqual(expected, actual);
-			Assert.Inconclusive("Verify the correctness of this test method.");
-		}
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void BinToStringTest()
+		//{
+		//    string encodedData = string.Empty; // TODO: Initialize to an appropriate value
+		//    string expected = string.Empty; // TODO: Initialize to an appropriate value
+		//    string actual;
+		//    actual = AISParser_Accessor.BinToString(encodedData);
+		//    Assert.AreEqual(expected, actual);
+		//    Assert.Inconclusive("Verify the correctness of this test method.");
+		//}
 
 		/// <summary>
 		///A test for BinToSignedInteger
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void BinToSignedIntegerTest()
-		{
-			string encodedData = string.Empty; // TODO: Initialize to an appropriate value
-			int expected = 0; // TODO: Initialize to an appropriate value
-			int actual;
-			actual = AISParser_Accessor.BinToSignedInteger(encodedData);
-			Assert.AreEqual(expected, actual);
-			Assert.Inconclusive("Verify the correctness of this test method.");
-		}
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void BinToSignedIntegerTest()
+		//{
+		//    string encodedData = string.Empty; // TODO: Initialize to an appropriate value
+		//    int expected = 0; // TODO: Initialize to an appropriate value
+		//    int actual;
+		//    actual = AISParser_Accessor.BinToSignedInteger(encodedData);
+		//    Assert.AreEqual(expected, actual);
+		//    Assert.Inconclusive("Verify the correctness of this test method.");
+		//}
 
 		/// <summary>
 		///A test for BinToSignedDouble
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void BinToSignedDoubleTest()
-		{
-			string encodedData = string.Empty; // TODO: Initialize to an appropriate value
-			double expected = 0F; // TODO: Initialize to an appropriate value
-			double actual;
-			actual = AISParser_Accessor.BinToSignedDouble(encodedData);
-			Assert.AreEqual(expected, actual);
-			Assert.Inconclusive("Verify the correctness of this test method.");
-		}
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void BinToSignedDoubleTest()
+		//{
+		//    string encodedData = string.Empty; // TODO: Initialize to an appropriate value
+		//    double expected = 0F; // TODO: Initialize to an appropriate value
+		//    double actual;
+		//    actual = AISParser_Accessor.BinToSignedDouble(encodedData);
+		//    Assert.AreEqual(expected, actual);
+		//    Assert.Inconclusive("Verify the correctness of this test method.");
+		//}
 
 		/// <summary>
 		///A test for AISParser Constructor
 		///</summary>
-		[TestMethod()]
-		public void AISParserConstructorTest()
-		{
-			AISParser target = new AISParser();
-			Assert.Inconclusive("TODO: Implement code to verify target");
-		}
+		//[TestMethod()]
+		//public void AISParserConstructorTest()
+		//{
+		//    AISParser target = new AISParser();
+		//    Assert.Inconclusive("TODO: Implement code to verify target");
+		//}
 
 
 		/// <summary>
@@ -230,37 +228,33 @@ namespace SharpAISTest
 			Parser p = new Parser();
 			string data = "!AIVDM,1,1,,B,139=P:001n0T2d8HqJQ1QQ@N0D1r,0*36";
 			Hashtable result = p.Parse(data);
-			Assert.AreEqual(result, null);
-
+			int MMSI = int.Parse(result["MMSI"].ToString());
+			Assert.AreEqual(MMSI, 210985000);
 		}
 
 		/// <summary>
 		/// Test decoding on type 5 message
 		/// </summary>
-		[TestMethod()]
 		public void ParseMessageType5Text()
 		{
+			Hashtable result;
 			Parser p = new Parser();
-			string data = "!AIVDM,2,1,7,B,53R7uN01QqPM=KWG?D0l58uDh40000000000001@5HD286vR07ThCU3l,0*76";
-			Hashtable result = p.Parse(data);
-			Assert.AreEqual(result, null);
+			string[] data = { 
+				"!AIVDM,2,1,1,A,5CUH?:02<fvq=`p:221@PDthtLu>122r222222153iHB45Ld0;42DPAE,0*1B", 
+				"!AIVDM,2,2,1,A,Dp8888888888880,2*11" };
 
-			data = "!AIVDM,2,2,7,B,RCR@00000000000,2*23";
-			result = p.Parse(data);
-			Assert.AreNotEqual(result, null);
-			string VesselName = result["VesselName"].ToString();
-			Assert.AreEqual(VesselName, "MAROULA");
-
-			data = "!AIVDM,2,1,1,A,5CUH?:02<fvq=`p:221@PDthtLu>122r222222153iHB45Ld0;42DPAE,0*1B";
-			result = p.Parse(data);
-			Assert.AreEqual(result, null);
-
-			data = "!AIVDM,2,2,1,A,Dp8888888888880,2*11";
-			result = p.Parse(data);
-			Assert.AreNotEqual(result, null);
-			VesselName = result["VesselName"].ToString();
-			Assert.AreEqual(VesselName, "THEOLOGOS P .       ");
-
+			for (int i = 0; i < data.Length; i++)
+			{
+				result = p.Parse(data[i]);
+				if (i == data.Length - 1)
+				{
+					Assert.AreNotEqual(result, null);
+					string VesselName = result["VesselName"].ToString();
+					Assert.AreEqual(VesselName, "THEOLOGOS P .       ");
+				}
+				else
+					Assert.AreEqual(result, null);
+			}
 		}
 
 		/// <summary>
@@ -276,6 +270,77 @@ namespace SharpAISTest
 			Assert.AreEqual((uint)result["SourceMMSI"], (uint)239311000);
 			Assert.AreEqual((uint)result["DestinationMMSI1"], (uint)371022000);
 
+		}
+
+
+		[TestMethod()]
+		public void SubmitedBug01()
+		{
+			Hashtable result;
+			Parser p = new Parser();
+			string[] data = { 
+								"!AIVDM,3,1,6,A,507pS201v8hMHTE@p4m0i>r18DLU,0*2A", 
+								"!AIVDM,3,2,6,A,=@E:1@v1E<D10@2110Au`0B3hj2C,0*3D", 
+								"!AIVDM,3,3,6,A,BCR888888888888,2*41" };
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				result = p.Parse(data[i]);
+				if (i == data.Length - 1)
+				{
+					Assert.AreNotEqual(result, null);
+					string VesselName = result["VesselName"].ToString();
+					Assert.AreEqual(VesselName, "PLS. REGISTER TO USE");
+				}
+				else
+					Assert.AreEqual(result, null);
+			}
+		}
+
+		[TestMethod()]
+		public void SubmitedBug02()
+		{
+			Hashtable result;
+			Parser p = new Parser();
+			string[] data = { 
+								"!AIVDM,2,1,7,B,53R7uN01QqPM=KWG?D0l58uDh40000000000001@5HD286vR07ThCU3l,0*76", 
+								"!AIVDM,2,2,7,B,RCR@00000000000,2*23" };
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				result = p.Parse(data[i]);
+				if (i == data.Length - 1)
+				{
+					Assert.AreNotEqual(result, null);
+					string VesselName = result["VesselName"].ToString();
+					Assert.AreEqual(VesselName, "MAROULA");
+				}
+				else
+					Assert.AreEqual(result, null);
+			}
+		}
+
+		[TestMethod()]
+		public void SubmitedBug03()
+		{
+			Hashtable result;
+			Parser p = new Parser();
+			string[] data = { 
+								"!AIVDM,2,1,9,B,58SQt3@21efG=L=2221=Dq8U<F37R22222222216<p`7=6q1NF4mDP@PFDPH,0*7C", 
+								"!AIVDM,2,2,9,B,88888888880,2*2E" };
+
+			for (int i = 0; i < data.Length; i++)
+			{
+				result = p.Parse(data[i]);
+				if (i == data.Length - 1)
+				{
+					Assert.AreNotEqual(result, null);
+					string VesselName = result["VesselName"].ToString();
+					Assert.AreEqual(VesselName, "SUNRISE 18          ");
+				}
+				else
+					Assert.AreEqual(result, null);
+			}
 		}
 
 	}
