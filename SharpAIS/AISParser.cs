@@ -728,7 +728,7 @@ namespace SharpAIS
 					if (buffer.ContainsKey(msg_slot))
 					{
 						//Debug.WriteLine(string.Format("Length:{0}", aisdata.Length));
-						if (buffer[msg_slot].Length == (msg_number - 1) * 336)
+						if (buffer[msg_slot].Length % 6 == 0)
 							aisdata = buffer[msg_slot] + aisdata;
 						else
 							aisdata = string.Empty;
@@ -780,7 +780,7 @@ namespace SharpAIS
 				{
 					if (buffer.ContainsKey(msg_slot))
 					{
-						if (buffer[msg_slot].Length == (msg_number - 1) * 360)
+						if (buffer[msg_slot].Length % 6 == 0)
 							buffer[msg_slot] += aisdata;
 						else
 							buffer.Remove(msg_slot);
