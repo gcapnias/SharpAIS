@@ -1,7 +1,7 @@
-##Project Description 
+## Project Description ## 
 **SharpAIS** is an AIS message parser, which offers programmers a library to decode AIS receiver data in their applications. 
 
-##General Information 
+## General Information ## 
 
 I was searching for a .NET Framework library to handle data from AIS receivers and decoding them for me. I could not find one, so this is my attempt to create such a library. 
 
