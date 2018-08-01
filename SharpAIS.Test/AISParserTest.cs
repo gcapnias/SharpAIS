@@ -80,32 +80,32 @@ namespace SharpAISTest
 		/// <summary>
 		///A test for IntegerToBinary
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void IntegerToBinaryTest()
-		{
-			Random rnd = new Random();
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void IntegerToBinaryTest()
+		//{
+		//	Random rnd = new Random();
 
-			int intergerValue = rnd.Next(64);
-			int outputLength = 6;
-			string expected = Convert.ToString(intergerValue, 2);
-			string actual = AISParser_Accessor.IntegerToBinary(intergerValue, outputLength);
-			Assert.AreEqual(true, actual.EndsWith(expected));
-			Assert.AreEqual(6, actual.Length);
-		}
+		//	int intergerValue = rnd.Next(64);
+		//	int outputLength = 6;
+		//	string expected = Convert.ToString(intergerValue, 2);
+		//	string actual = AISParser_Accessor.IntegerToBinary(intergerValue, outputLength);
+		//	Assert.AreEqual(true, actual.EndsWith(expected));
+		//	Assert.AreEqual(6, actual.Length);
+		//}
 
 		/// <summary>
 		///A test for EncodedDataToBinary
 		///</summary>
-		[TestMethod()]
-		[DeploymentItem("SharpAIS.dll")]
-		public void EncodedDataToBinaryTest()
-		{
-			string encodedData = "012345";
-			string expected = "000000000001000010000011000100000101";
-			string actual = AISParser_Accessor.EncodedDataToBinary(encodedData);
-			Assert.AreEqual(expected, actual);
-		}
+		//[TestMethod()]
+		//[DeploymentItem("SharpAIS.dll")]
+		//public void EncodedDataToBinaryTest()
+		//{
+		//	string encodedData = "012345";
+		//	string expected = "000000000001000010000011000100000101";
+		//	string actual = AISParser_Accessor.EncodedDataToBinary(encodedData);
+		//	Assert.AreEqual(expected, actual);
+		//}
 
 		/// <summary>
 		///A test for DecodeAISData
