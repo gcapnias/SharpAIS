@@ -223,7 +223,7 @@ namespace SharpAIS.DotSpatialMap
                         case 1:
                         case 2:
                         case 3:
-                            double[] pointCoords = { (double)rs["Lontitude"], (double)rs["Lattitude"] };
+                            double[] pointCoords = { (double)rs["Longitude"], (double)rs["Latitude"] };
                             double[] z = { 0 };
 
                             if (!_projectionInfo.Equals(KnownCoordinateSystems.Geographic.World.WGS1984))
