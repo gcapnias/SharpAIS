@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace SharpAIS
 {
 	public class AISParser
 	{
-		private static Dictionary<string, string> buffer = new Dictionary<string, string>();
-		private static Hashtable patterns = new Hashtable();
+		private static AISParser _instance = null;
 
-		static AISParser()
+		private Dictionary<string, string> slotsArray = new Dictionary<string, string>();
+		private Hashtable patterns = new Hashtable();
+
+		private AISParser()
 		{
 			// Type 1: Scheduled Position Report
 			patterns.Add("^" + IntegerToBinary(1, 6) + ".*", new string[] {
@@ -21,11 +23,11 @@ namespace SharpAIS
 				"MMSI:uint:30",
 				"NavigationalStatus:uint:4",
 				"RateOfTurn:int:8",
-				"SpeedOverGround:double:10:10",
+				"SpeedOverGround:decimal:10:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"TrueHeading:uint:9",
 				"TimeStamp:uint:6",
 				"ManeuverIndicator:uint:2",
@@ -44,11 +46,11 @@ namespace SharpAIS
 				"MMSI:uint:30",
 				"NavigationalStatus:uint:4",
 				"RateOfTurn:int:8",
-				"SpeedOverGround:double:10:10",
+				"SpeedOverGround:decimal:10:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"TrueHeading:uint:9",
 				"TimeStamp:uint:6",
 				"ManeuverIndicator:uint:2",
@@ -67,11 +69,11 @@ namespace SharpAIS
 				"MMSI:uint:30",
 				"NavigationalStatus:uint:4",
 				"RateOfTurn:int:8",
-				"SpeedOverGround:double:10:10",
+				"SpeedOverGround:decimal:10:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"TrueHeading:uint:9",
 				"TimeStamp:uint:6",
 				"ManeuverIndicator:uint:2",
@@ -95,8 +97,8 @@ namespace SharpAIS
 				"Minute:uint:6",
 				"Second:uint:6",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
 				"FixingDeviceType:uint:4",
 				"TransmitionControl:uint:1",
 				"Spare:uint:9",
@@ -127,7 +129,7 @@ namespace SharpAIS
 				"ETADay:uint:5",
 				"ETAHour:uint:5",
 				"ETAMinute:uint:6",
-				"Draught:double:8:10",
+				"Draught:decimal:8:10",
 				"Destination:string:120",
 				"DTE:uint:1",
 				"Spare:uint:1"
@@ -135,19 +137,87 @@ namespace SharpAIS
 
 			// Type 5: Ship Static and Voyage related data - ^000101.{2}.{30}01.*
 			// (AIS Version=1) Data Set for Extended Ship Static and Voyage Related Data
+			patterns.Add("^" + IntegerToBinary(5, 6) + ".{2}.{30}01.*", new string[] {
+				"MessageType:uint:6",
+				"RepeatIndicator:uint:2",
+				"MMSI:uint:30",
+				"AISVersion:uint:2",
+				"IMONumber:uint:30",
+				"CallSign:string:42",
+				"VesselName:string:120",
+				"ShipType:uint:8",
+				"DimensionToBow:uint:9",
+				"DimensionToStern:uint:9",
+				"DimensionToPort:uint:6",
+				"DimensionToStarboard:uint:6",
+				"PositionFixType:uint:4",
+				"ETAMonth:uint:4",
+				"ETADay:uint:5",
+				"ETAHour:uint:5",
+				"ETAMinute:uint:6",
+				"Draught:decimal:8:10",
+				"Destination:string:120",
+				"DTE:uint:1",
+				"Spare:uint:1"
+			});
 
 			// Type 5: Ship Static and Voyage related data - ^000101.{2}.{30}10.*
 			// (AIS Version=2) Data Set for Aids-to-Navigation Data
+			patterns.Add("^" + IntegerToBinary(5, 6) + ".{2}.{30}10.*", new string[] {
+				"MessageType:uint:6",
+				"RepeatIndicator:uint:2",
+				"MMSI:uint:30",
+				"AISVersion:uint:2",
+				"IMONumber:uint:30",
+				"CallSign:string:42",
+				"VesselName:string:120",
+				"ShipType:uint:8",
+				"DimensionToBow:uint:9",
+				"DimensionToStern:uint:9",
+				"DimensionToPort:uint:6",
+				"DimensionToStarboard:uint:6",
+				"PositionFixType:uint:4",
+				"ETAMonth:uint:4",
+				"ETADay:uint:5",
+				"ETAHour:uint:5",
+				"ETAMinute:uint:6",
+				"Draught:decimal:8:10",
+				"Destination:string:120",
+				"DTE:uint:1",
+				"Spare:uint:1"
+			});
 
 			// Type 5: Ship Static and Voyage related data - ^000101.{2}.{30}11.*
 			// (AIS Version=3) Data set for Regional Ship Static and Voyage Related Data
-
+			patterns.Add("^" + IntegerToBinary(5, 6) + ".{2}.{30}11.*", new string[] {
+				"MessageType:uint:6",
+				"RepeatIndicator:uint:2",
+				"MMSI:uint:30",
+				"AISVersion:uint:2",
+				"IMONumber:uint:30",
+				"CallSign:string:42",
+				"VesselName:string:120",
+				"ShipType:uint:8",
+				"DimensionToBow:uint:9",
+				"DimensionToStern:uint:9",
+				"DimensionToPort:uint:6",
+				"DimensionToStarboard:uint:6",
+				"PositionFixType:uint:4",
+				"ETAMonth:uint:4",
+				"ETADay:uint:5",
+				"ETAHour:uint:5",
+				"ETAMinute:uint:6",
+				"Draught:decimal:8:10",
+				"Destination:string:120",
+				"DTE:uint:1",
+				"Spare:uint:1"
+			});
 
 			// Type 6: Addressed Binary Message (ok)
 			patterns.Add("^" + IntegerToBinary(6, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"SequenceNumber:uint:2",
 				"DestinationMMSI:uint:30",
 				"RetransmitFlag:uint:1",
@@ -163,7 +233,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(7, 6) + ".{162}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -180,7 +250,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(7, 6) + ".{130,162}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -195,7 +265,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(7, 6) + ".{98,130}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -208,7 +278,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(7, 6) + ".{66,98}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2"
@@ -219,7 +289,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(8, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DesignatedAreaCode:uint:10",
 				"FunctionId:uint:6",
@@ -235,9 +305,9 @@ namespace SharpAIS
 				"Altitude:uint:12",
 				"SpeedOverGround:uint:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"RegionalReserved:uint:8",
 				"DTE:uint:1",
 				"Spare:uint:3",
@@ -253,7 +323,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(10, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare1:uint:2",
 				"DestinationMMSI:uint:30",
 				"Spare2:uint:2"
@@ -272,8 +342,8 @@ namespace SharpAIS
 				"Minute:uint:6",
 				"Second:uint:6",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
 				"FixingDeviceType:uint:4",
 				"TransmitionControl:uint:1",
 				"Spare:uint:9",
@@ -288,7 +358,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(12, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"SequenceNumber:uint:2",
 				"DestinationMMSI:uint:30",
 				"RetransmitFlag:uint:1",
@@ -302,7 +372,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(13, 6) + ".{162}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -319,7 +389,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(13, 6) + ".{130,162}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -334,7 +404,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(13, 6) + ".{98,130}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -347,7 +417,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(13, 6) + ".{66,98}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"SequenceNumber1:uint:2",
@@ -358,7 +428,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(14, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"Text:string:0,968"
 			});
@@ -371,7 +441,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(15, 6) + ".{154}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"MessageType1_1:uint:6",
@@ -393,7 +463,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(15, 6) + ".{102,154}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"MessageType1_1:uint:6",
@@ -410,7 +480,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(15, 6) + ".{82,102}", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"DestinationMMSI1:uint:30",
 				"MessageType1_1:uint:6",
@@ -424,7 +494,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(16, 6) + ".{142}", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "DestinationMMSI1:uint:30",
 				 "Offset1:uint:12",
@@ -440,7 +510,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(16, 6) + ".{90,142}", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "DestinationMMSI1:uint:30",
 				 "Offset1:uint:12",
@@ -453,10 +523,10 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(17, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
-				"Lontitude:double:18:600",
-				"Lattitude:double:17:600",
+				"Longitude:double:18:600",
+				"Latitude:double:17:600",
 				"Spare2:uint:5",
 				"Payload:data:0,736"
 			});
@@ -468,11 +538,11 @@ namespace SharpAIS
 				"RepeatIndicator:uint:2",
 				"MMSI:uint:30",
 				"RegionalReserved:uint:8",
-				"SpeedOverGround:double:10:10",
+				"SpeedOverGround:decimal:10:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"TrueHeading:uint:9",
 				"TimeStamp:uint:6",
 				"RegionalReserved2:uint:2",
@@ -496,11 +566,11 @@ namespace SharpAIS
 				"RepeatIndicator:uint:2",
 				"MMSI:uint:30",
 				"RegionalReserved:uint:8",
-				"SpeedOverGround:double:10:10",
+				"SpeedOverGround:decimal:10:10",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
-				"CourseOverGround:double:12:10",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
+				"CourseOverGround:decimal:12:10",
 				"TrueHeading:uint:9",
 				"TimeStamp:uint:6",
 				"RegionalReserved2:uint:4",
@@ -523,7 +593,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(20, 6) + ".{154}.*", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "OffsetNumber1:uint:12",
 				 "ReservedSlots1:uint:4",
@@ -548,7 +618,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(20, 6) + ".{124,154}.*", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "OffsetNumber1:uint:12",
 				 "ReservedSlots1:uint:4",
@@ -569,7 +639,7 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(20, 6) + ".{94,124}.*", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "OffsetNumber1:uint:12",
 				 "ReservedSlots1:uint:4",
@@ -587,7 +657,7 @@ namespace SharpAIS
 				 "^" + IntegerToBinary(20, 6) + ".{64,94}.*", new string[] {
 				 "MessageType:uint:6",
 				 "RepeatIndicator:uint:2",
-				 "SourceMMSI:uint:30",
+				 "MMSI:uint:30",
 				 "Spare:uint:2",
 				 "OffsetNumber1:uint:12",
 				 "ReservedSlots1:uint:4",
@@ -600,12 +670,12 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(21, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:uint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"AidType:uint:5",
 				"Name:string:120",
 				"PositionAccuracy:uint:1",
-				"Lontitude:double:28:600000",
-				"Lattitude:double:27:600000",
+				"Longitude:double:28:600000",
+				"Latitude:double:27:600000",
 				"DimensionToBow:uint:9",
 				"DimensionToStern:uint:9",
 				"DimensionToPort:uint:6",
@@ -626,23 +696,23 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(22, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:iint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
 				"ChannelA:uint:12",
 				"ChannelB:uint:12",
 				"TransmitReceiveMode:uint:4",
 				"Power:uint:1",
-				"NELontitude:double:18:600",
-				"NELattitude:double:17:600",
-				"SWLontitude:double:18:600",
-				"SWLattitude:double:17:600",
+				"NELongitude:double:18:600",
+				"NELatitude:double:17:600",
+				"SWLongitude:double:18:600",
+				"SWLatitude:double:17:600",
 				"DestinationMMSI1:uint:30",
 				"DestinationMMSI2:uint:30",
 				"Addressed:uint:1",
 				"ChannelABand:uint:1",
 				"ChannelBBand:uint:1",
 				"ZoneSite:unit:3",
-				"Spare:uint:23"		  
+				"Spare:uint:23"
 			});
 
 
@@ -650,19 +720,19 @@ namespace SharpAIS
 			patterns.Add("^" + IntegerToBinary(23, 6) + ".*", new string[] {
 				"MessageType:uint:6",
 				"RepeatIndicator:iint:2",
-				"SourceMMSI:uint:30",
+				"MMSI:uint:30",
 				"Spare:uint:2",
-				"NELontitude:double:18:600",
-				"NELattitude:double:17:600",
-				"SWLontitude:double:18:600",
-				"SWLattitude:double:17:600",
+				"NELongitude:double:18:600",
+				"NELatitude:double:17:600",
+				"SWLongitude:double:18:600",
+				"SWLatitude:double:17:600",
 				"StationType:uint:4",
 				"ShipType:uint:8",
-				"Spare1:uint:22",  
+				"Spare1:uint:22",
 				"TransmitReceiveMode:uint:2",
 				"ReportInterval:uint:4",
 				"QuietTime:unit:4",
-				"Spare2:uint:6"		  
+				"Spare2:uint:6"
 			});
 
 
@@ -703,14 +773,25 @@ namespace SharpAIS
 
 		}
 
-		public static Hashtable ParseSentence(string sentence)
+		public static AISParser Instance
+		{
+			get
+			{
+				if (_instance == null)
+					_instance = new AISParser();
+
+				return _instance;
+			}
+		}
+
+		public Hashtable ParseSentence(string sentence)
 		{
 			string[] data = sentence.Split(',');
 
 			//Debug.Assert(data[1] == "1");
 
+			int msg_parts = int.Parse(data[1]);
 			int msg_number = int.Parse(data[2]);
-			int msg_part = int.Parse(data[1]);
 			string msg_slot = data[3];
 
 			string aisdata = EncodedDataToBinary(data[5]);
@@ -720,32 +801,30 @@ namespace SharpAIS
 				aisdata = aisdata + new string('0', fillbits);
 			}
 
-			if (msg_number == msg_part)
+			if (msg_number == msg_parts)
 			{
-				if (msg_part != 1)
+				if (msg_parts != 1)
 				{
-					//Debug.WriteLine(string.Format("Slot:[{0}] Part:{1}/{2}", msg_slot, msg_number, msg_part));
-					if (buffer.ContainsKey(msg_slot))
+					if (slotsArray.ContainsKey(msg_slot))
 					{
-						//Debug.WriteLine(string.Format("Length:{0}", aisdata.Length));
-						if (buffer[msg_slot].Length % 6 == 0)
-							aisdata = buffer[msg_slot] + aisdata;
-						else
-							aisdata = string.Empty;
+						//if (slotsArray[msg_slot].Length == (msg_number - 1) * 336)
+						//    aisdata = slotsArray[msg_slot] + aisdata;
+						//else
+						//    aisdata = string.Empty;
 
-						buffer.Remove(msg_slot);
+						aisdata = slotsArray[msg_slot] + aisdata;
+						slotsArray.Remove(msg_slot);
 					}
 					else
+					{
+						Debug.WriteLine($"Slot:[{msg_slot}:{msg_number}/{msg_parts}] data missing!");
 						aisdata = string.Empty;
+					}
 				}
-
-				//if (aisdata.StartsWith(i2b(1, 6)))
-				//    System.Diagnostics.Debugger.Break();
 
 				if (!string.IsNullOrEmpty(aisdata))
 				{
-					//uint MessageType = Convert.ToUInt32(aisdata.Substring(0, 6), 2);
-					//Debug.WriteLine(string.Format("MessageType::{0:00}", MessageType));
+					uint MessageType = Convert.ToUInt32(aisdata.Substring(0, 6), 2);
 					//if (MessageType == 5)
 					//    Debugger.Break();
 
@@ -754,12 +833,12 @@ namespace SharpAIS
 						Regex regex = new Regex(key);
 						if (regex.IsMatch(aisdata))
 						{
-							return DecodeAISData(aisdata, (string[])patterns[key]);
+							return DecodeAisData(aisdata, (string[])patterns[key]);
 						}
 					}
-					Debug.WriteLine(aisdata);
-					Debug.WriteLine(string.Format("Length::{0}", aisdata.Length));
-					//Debugger.Break();
+					Debug.WriteLine($"Type  : {MessageType:00}");
+					Debug.WriteLine($"Length: {aisdata.Length}");
+					Debug.WriteLine($"Data  : {aisdata}");
 				}
 			}
 			else
@@ -767,23 +846,33 @@ namespace SharpAIS
 				//Debug.WriteLine(string.Format("Slot:[{0}] Part:{1}/{2}", msg_slot, msg_number, msg_part));
 				if (msg_number == 1)
 				{
-					if (buffer.ContainsKey(msg_slot))
+					if (slotsArray.ContainsKey(msg_slot))
 					{
-						Debug.WriteLine(string.Format("Slot:[{0}] deleted!", msg_slot));
-						buffer.Remove(msg_slot);
+						Debug.WriteLine($"Slot:[{msg_slot}:{msg_number}/{msg_parts}] data cleaned!");
+						slotsArray.Remove(msg_slot);
 					}
 
-					buffer.Add(msg_slot, aisdata);
-					Debug.WriteLine(string.Format("Length:{0}", aisdata.Length));
+					slotsArray.Add(msg_slot, aisdata);
 				}
 				else
 				{
-					if (buffer.ContainsKey(msg_slot))
+					if (slotsArray.ContainsKey(msg_slot))
 					{
-						if (buffer[msg_slot].Length % 6 == 0)
-							buffer[msg_slot] += aisdata;
-						else
-							buffer.Remove(msg_slot);
+						//if (slotsArray[msg_slot].Length == (msg_number - 1) * 360)
+						//{
+						//    slotsArray[msg_slot] += aisdata;
+						//}
+						//else
+						//{
+						//    Debug.WriteLine($"Slot:[{msg_slot}/{msg_number}] cleaned!");
+						//    slotsArray.Remove(msg_slot);
+						//}
+
+						slotsArray[msg_slot] += aisdata;
+					}
+					else
+					{
+						Debug.WriteLine($"Slot:[{msg_slot}:{msg_number}/{msg_parts}] data missing!");
 					}
 				}
 			}
@@ -791,7 +880,7 @@ namespace SharpAIS
 			return null;
 		}
 
-		private static Hashtable DecodeAISData(string AISData, string[] attributes)
+		private Hashtable DecodeAisData(string AISData, string[] attributes)
 		{
 			//uint MessageType = Convert.ToUInt32(AISData.Substring(0, 6), 2);
 			//Debug.WriteLine(string.Format("MessageType:{0:00}", MessageType));
@@ -840,17 +929,22 @@ namespace SharpAIS
 						break;
 
 					case "int":
-						returnData.Add(fieldName, BinToSignedInteger(AISData.Substring(currentPosition, fieldMinLength)));
+						returnData.Add(fieldName, BinaryToSignedInteger(AISData.Substring(currentPosition, fieldMinLength)));
+						currentPosition += fieldMinLength;
+						break;
+
+					case "decimal":
+						returnData.Add(fieldName, (double)(Convert.ToUInt32(AISData.Substring(currentPosition, fieldMinLength), 2) / (double)divisor));
 						currentPosition += fieldMinLength;
 						break;
 
 					case "string":
-						returnData.Add(fieldName, BinToString(AISData.Substring(currentPosition, fieldMinLength)));
+						returnData.Add(fieldName, BinaryToString(AISData.Substring(currentPosition, fieldMinLength)));
 						currentPosition += fieldMinLength;
 						break;
 
 					case "double":
-						returnData.Add(fieldName, (double)(BinToSignedDouble(AISData.Substring(currentPosition, fieldMinLength)) / (double)divisor));
+						returnData.Add(fieldName, (double)(BinaryToSignedDouble(AISData.Substring(currentPosition, fieldMinLength)) / (double)divisor));
 						currentPosition += fieldMinLength;
 						break;
 
@@ -873,9 +967,10 @@ namespace SharpAIS
 			return returnData;
 		}
 
-		private static string EncodedDataToBinary(string encodedData)
+
+		public string EncodedDataToBinary(string encodedData)
 		{
-			string decodedData = string.Empty;
+			StringBuilder decodedData = new StringBuilder();
 			char[] encodedCharArray = encodedData.ToCharArray();
 
 			for (int i = 0; i < encodedCharArray.Length; i++)
@@ -885,37 +980,28 @@ namespace SharpAIS
 				if (c > 40)
 					c -= 8;
 
-				//if (c >= 48 && c < 88)
-				//    c -= 48;
-				//else if (c >= 96 && c < 120)
-				//    c -= 56;
-				//else
-				//    c = 0;
-
-				string decodedChar = Convert.ToString(c, 2);
-				for (int j = decodedChar.Length; j < 6; j++)
-				{
-					decodedChar = "0" + decodedChar;
-				}
-
-				decodedData += decodedChar;
+				string decodedChar = Convert.ToString(c, 2).PadLeft(6, '0');
+				decodedData.Append(decodedChar);
 			}
 
-			return decodedData;
+			return decodedData.ToString();
 		}
 
-		private static string IntegerToBinary(int intergerValue, int outputLength)
+		private string IntegerToBinary(int intergerValue, int outputLength)
 		{
-			string returnValue = Convert.ToString(intergerValue, 2);
-			for (int i = returnValue.Length; i < outputLength; i++)
-			{
-				returnValue = "0" + returnValue;
-			}
+			//string returnValue = Convert.ToString(intergerValue, 2);
+			//for (int i = returnValue.Length; i < outputLength; i++)
+			//{
+			//	returnValue = "0" + returnValue;
+			//}
 
-			return returnValue;
+			//return returnValue;
+
+			return Convert.ToString(intergerValue, 2).PadLeft(outputLength, '0');
 		}
 
-		private static string BinToString(string encodedData)
+
+		private string BinaryToString(string encodedData)
 		{
 			string returnValue = "";
 
@@ -933,7 +1019,7 @@ namespace SharpAIS
 			return returnValue;
 		}
 
-		private static double BinToSignedDouble(string encodedData)
+		private double BinaryToSignedDouble(string encodedData)
 		{
 			double returnValue = (double)Convert.ToInt64(encodedData, 2);
 
@@ -943,7 +1029,7 @@ namespace SharpAIS
 			return returnValue;
 		}
 
-		private static int BinToSignedInteger(string encodedData)
+		private int BinaryToSignedInteger(string encodedData)
 		{
 			int returnValue = Convert.ToInt32(encodedData.Substring(1), 2);
 			if (encodedData.StartsWith("1"))

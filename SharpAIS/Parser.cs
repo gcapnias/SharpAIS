@@ -24,7 +24,7 @@ namespace SharpAIS
                     case "!AIVDO":
                     case "!BSVDM":
                     case "!BSVDO":
-                        return AISParser.ParseSentence(sentencedata[0]);
+                        return AISParser.Instance.ParseSentence(sentencedata[0]);
 
                     default:
                         break;
